@@ -16,6 +16,11 @@ variable ssh_user {
   default     = "ubuntu"
 }
 
+variable custom_network_name {
+  description = "Custom network name, which if specified will be used for internal node addresses"
+  default     = ""
+}
+
 variable external_network_id {
   description = "External network ID"
 }

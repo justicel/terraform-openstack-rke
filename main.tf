@@ -15,6 +15,7 @@ module "secgroup" {
 # Create network
 module "network" {
   source              = "modules/network"
+  enabled             = "${var.custom_network_name == "" ? true : false}"
   name_prefix         = "${var.cluster_prefix}"
   external_network_id = "${var.external_network_id}"
 }
@@ -26,7 +27,7 @@ module "master" {
   name_prefix        = "${var.cluster_prefix}-master"
   flavor_name        = "${var.master_flavor_name}"
   image_name         = "${var.image_name}"
-  network_name       = "${module.network.network_name}"
+  network_name       = "${coalesce(var.custom_network_name, module.network.network_name)}"
   secgroup_name      = "${module.secgroup.secgroup_name}"
   floating_ip_pool   = "${var.floating_ip_pool}"
   ssh_user           = "${var.ssh_user}"
@@ -49,7 +50,7 @@ module "service" {
   name_prefix        = "${var.cluster_prefix}-service"
   flavor_name        = "${var.service_flavor_name}"
   image_name         = "${var.image_name}"
-  network_name       = "${module.network.network_name}"
+  network_name       = "${coalesce(var.custom_network_name, module.network.network_name)}"
   secgroup_name      = "${module.secgroup.secgroup_name}"
   floating_ip_pool   = "${var.floating_ip_pool}"
   ssh_user           = "${var.ssh_user}"
@@ -72,7 +73,7 @@ module "edge" {
   name_prefix        = "${var.cluster_prefix}-edge"
   flavor_name        = "${var.edge_flavor_name}"
   image_name         = "${var.image_name}"
-  network_name       = "${module.network.network_name}"
+  network_name       = "${coalesce(var.custom_network_name, module.network.network_name)}"
   secgroup_name      = "${module.secgroup.secgroup_name}"
   floating_ip_pool   = "${var.floating_ip_pool}"
   ssh_user           = "${var.ssh_user}"

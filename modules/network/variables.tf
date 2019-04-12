@@ -1,3 +1,8 @@
+variable "enabled" {
+  description = "Boolean to enable or disable network resource creation"
+  default     = true
+}
+
 variable name_prefix {
   description = "Prefix for the network name"
 }
