@@ -9,6 +9,12 @@ resource rke_cluster "cluster" {
     port         = 22
   }
 
+  services_etcd {
+    snapshot  = true
+    retention = "24h"
+    creation  = "6h0s"
+  }
+
   cloud_provider {
     name = "openstack"
 
