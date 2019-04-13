@@ -122,11 +122,12 @@ resource null_resource "prepare_nodes" {
   }
 
   provisioner "remote-exec" {
-    timeout = "10m"
-    inline  = ["while ! ls -alh /var/run/docker.sock > /dev/null 2>&1; do sleep 20; done"]
+    inline = ["while ! ls -alh /var/run/docker.sock > /dev/null 2>&1; do sleep 20; done"]
   }
 
   connection {
+    timeout = "10m"
+
     # External
     bastion_host     = "${var.assign_floating_ip && var.ssh_bastion_host == "" ? element(concat(openstack_compute_floatingip_v2.floating_ip.*.address,list("")), count.index) : var.ssh_bastion_host}" # workaround (empty list, no need in TF 0.12)
     bastion_host_key = "${file(var.ssh_key)}"
