@@ -13,7 +13,7 @@ variable ssh_key_pub {
 
 variable ssh_user {
   description = "SSH user name (use the default user for the OS image)"
-  default     = "ubuntu"
+  default     = "rancher"
 }
 
 variable custom_network_name {

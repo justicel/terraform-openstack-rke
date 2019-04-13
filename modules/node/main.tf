@@ -10,13 +10,24 @@ locals {
   primary_enable   = "${var.secondary_volume_size == 0 ? 1 : 0}"
 }
 
+# Template file for cloud-init for rancheros
+data "template_file" "init" {
+  template = "${file("${path.module}/templates/rancheros.tpl")}"
+
+  vars = {
+    docker_version = "${var.docker_version}"
+  }
+}
+
 # Create instance
 resource "openstack_compute_instance_v2" "instance" {
-  count       = "${var.count * local.primary_enable}"
-  name        = "${var.name_prefix}-${format("%03d", count.index)}"
-  image_name  = "${var.image_name}"
-  flavor_name = "${var.flavor_name}"
-  key_pair    = "${var.os_ssh_keypair}"
+  count        = "${var.count * local.primary_enable}"
+  name         = "${var.name_prefix}-${format("%03d", count.index)}"
+  image_name   = "${var.image_name}"
+  config_drive = true
+  user_data    = "${data.template_file.init.rendered}"
+  flavor_name  = "${var.flavor_name}"
+  key_pair     = "${var.os_ssh_keypair}"
 
   block_device {
     uuid                  = "${data.openstack_images_image_v2.node.id}"
@@ -46,11 +57,13 @@ resource "openstack_compute_instance_v2" "instance" {
 }
 
 resource "openstack_compute_instance_v2" "instance_secondary_volume" {
-  count       = "${var.count * local.secondary_enable}"
-  name        = "${var.name_prefix}-${format("%03d", count.index)}"
-  image_name  = "${var.image_name}"
-  flavor_name = "${var.flavor_name}"
-  key_pair    = "${var.os_ssh_keypair}"
+  count        = "${var.count * local.secondary_enable}"
+  name         = "${var.name_prefix}-${format("%03d", count.index)}"
+  image_name   = "${var.image_name}"
+  config_drive = true
+  user_data    = "${file("${path.module}/templates/rancheros.tpl")}"
+  flavor_name  = "${var.flavor_name}"
+  key_pair     = "${var.os_ssh_keypair}"
 
   block_device {
     uuid                  = "${data.openstack_images_image_v2.node.id}"
@@ -120,10 +133,7 @@ resource null_resource "prepare_nodes" {
       private_key = "${file(var.ssh_key)}"
     }
 
-    inline = [
-      "curl releases.rancher.com/install-docker/${var.docker_version}.sh | bash",
-      "sudo usermod -a -G docker ${var.ssh_user}",
-    ]
+    inline = ["while ! ls -alh /var/run/docker.sock > /dev/null 2>&1; do sleep 20; done"]
   }
 }
 
