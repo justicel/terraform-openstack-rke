@@ -36,3 +36,24 @@ variable "rke_cluster_deps" {
   type        = "list"
   description = "List of resources that will delay creation and deletion of the RKE provisioning resource (provide a resource output for each)"
 }
+
+variable "openstack_username" {
+  description = "Openstack admin username for connecting to API for creating volumes, etc"
+}
+
+variable "openstack_password" {
+  description = "Openstack admin password for connecting to API"
+}
+
+variable "openstack_auth_url" {
+  description = "Openstack API URL for authentication"
+}
+
+variable "openstack_tenant_id" {
+  description = "Openstack tenant ID for admin user"
+}
+
+variable "openstack_region" {
+  description = "Region name for openstack"
+  default     = "RegionOne"
+}

@@ -113,6 +113,11 @@ module "rke" {
   ignore_docker_version     = "${var.ignore_docker_version}"
   write_kube_config_cluster = "${var.write_kube_config_cluster}"
   write_cluster_yaml        = "${var.write_cluster_yaml}"
+  openstack_username        = "${var.openstack_username}"
+  openstack_password        = "${var.openstack_password}"
+  openstack_auth_url        = "${var.openstack_auth_url}"
+  openstack_tenant_id       = "${var.openstack_tenant_id}"
+  openstack_region          = "${var.openstack_region}"
 }
 
 # Create DNS records if required

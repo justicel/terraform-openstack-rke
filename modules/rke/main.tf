@@ -9,6 +9,20 @@ resource rke_cluster "cluster" {
     port         = 22
   }
 
+  cloud_provider {
+    name = "openstack"
+
+    openstack_cloud_config = {
+      global = {
+        username  = "${var.openstack_username}"
+        password  = "${var.openstack_password}"
+        auth_url  = "${var.openstack_auth_url}"
+        tenant_id = "${var.openstack_tenant_id}"
+        region    = "${var.openstack_region}"
+      }
+    }
+  }
+
   ingress = {
     provider = "nginx"
 
