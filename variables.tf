@@ -16,6 +16,11 @@ variable ssh_user {
   default     = "rancher"
 }
 
+variable "ssh_agent_auth" {
+  description = "Boolean to enable or disable usage of ssh agent auth for RKE"
+  default     = true
+}
+
 variable custom_network_name {
   description = "Custom network name, which if specified will be used for internal node addresses"
   default     = ""
@@ -68,6 +73,11 @@ variable ignore_docker_version {
 variable docker_version {
   description = "Docker version (should be RKE-compliant: https://rancher.com/docs/rke/v0.1.x/en/os/#software)"
   default     = "18.09.2"
+}
+
+variable kubernetes_version {
+  description = "Version of Kubernetes to install in the cluster"
+  default     = "v1.13.5-rancher1-2"
 }
 
 variable write_kube_config_cluster {

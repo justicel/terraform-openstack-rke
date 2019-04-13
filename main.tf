@@ -118,6 +118,8 @@ module "rke" {
   openstack_auth_url        = "${var.openstack_auth_url}"
   openstack_tenant_id       = "${var.openstack_tenant_id}"
   openstack_region          = "${var.openstack_region}"
+  ssh_agent_auth            = "${var.ssh_agent_auth}"
+  kubernetes_version        = "${var.kubernetes_version}"
 }
 
 # Create DNS records if required

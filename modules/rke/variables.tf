@@ -57,3 +57,11 @@ variable "openstack_region" {
   description = "Region name for openstack"
   default     = "RegionOne"
 }
+
+variable "ssh_agent_auth" {
+  description = "Boolean to enable or disable usage of ssh agent auth for RKE"
+}
+
+variable kubernetes_version {
+  description = "Version of Kubernetes to install in the cluster"
+}

@@ -1,6 +1,8 @@
 # Provision RKE
 resource rke_cluster "cluster" {
-  nodes_conf = ["${var.node_mappings}"]
+  nodes_conf         = ["${var.node_mappings}"]
+  kubernetes_version = "${var.kubernetes_version}"
+  ssh_agent_auth     = "${var.ssh_agent_auth}"
 
   bastion_host = {
     address      = "${var.ssh_bastion_host}"
