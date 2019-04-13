@@ -6,7 +6,7 @@ output kube_config_cluster {
   sensitive = true
 }
 
-output custer_yml {
+output cluster_yml {
   description = "RKE cluster.yml file"
   value       = "${coalesce("", rke_cluster.cluster.rke_cluster_yaml)}"
 }
