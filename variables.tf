@@ -131,3 +131,8 @@ variable cloudflare_api_key {
   description = "Cloudflare API key (required if enable_cloudflare=true)"
   default     = "null"
 }
+
+variable secondary_volume_size {
+  description = "Size in GB of secondary volume for service node instances. Leave 0 to not create"
+  default     = 0
+}

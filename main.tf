@@ -45,21 +45,22 @@ module "master" {
 
 # Create service nodes
 module "service" {
-  source             = "modules/node"
-  count              = "${var.service_count}"
-  name_prefix        = "${var.cluster_prefix}-service"
-  flavor_name        = "${var.service_flavor_name}"
-  image_name         = "${var.image_name}"
-  network_name       = "${coalesce(var.custom_network_name, module.network.network_name)}"
-  secgroup_name      = "${module.secgroup.secgroup_name}"
-  floating_ip_pool   = "${var.floating_ip_pool}"
-  ssh_user           = "${var.ssh_user}"
-  ssh_key            = "${var.ssh_key}"
-  os_ssh_keypair     = "${openstack_compute_keypair_v2.keypair.name}"
-  ssh_bastion_host   = "${element(module.edge.public_ip_list,0)}"
-  docker_version     = "${var.docker_version}"
-  assign_floating_ip = "${var.service_assign_floating_ip}"
-  role               = ["worker"]
+  source                = "modules/node"
+  count                 = "${var.service_count}"
+  name_prefix           = "${var.cluster_prefix}-service"
+  flavor_name           = "${var.service_flavor_name}"
+  image_name            = "${var.image_name}"
+  network_name          = "${coalesce(var.custom_network_name, module.network.network_name)}"
+  secgroup_name         = "${module.secgroup.secgroup_name}"
+  floating_ip_pool      = "${var.floating_ip_pool}"
+  ssh_user              = "${var.ssh_user}"
+  ssh_key               = "${var.ssh_key}"
+  os_ssh_keypair        = "${openstack_compute_keypair_v2.keypair.name}"
+  ssh_bastion_host      = "${element(module.edge.public_ip_list,0)}"
+  docker_version        = "${var.docker_version}"
+  assign_floating_ip    = "${var.service_assign_floating_ip}"
+  secondary_volume_size = "${var.secondary_volume_size}"
+  role                  = ["worker"]
 
   labels = {
     node_type = "service"

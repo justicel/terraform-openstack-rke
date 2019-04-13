@@ -60,6 +60,11 @@ variable docker_version {
 }
 
 variable ssh_bastion_host {
-  default = "Bastion SSH host (mandatory if assign_floating_ip is false)"
-  default = ""
+  description = "Bastion SSH host (mandatory if assign_floating_ip is false)"
+  default     = ""
+}
+
+variable secondary_volume_size {
+  description = "Size in GB of secondary volume for instances. Leave 0 to not create"
+  default     = 0
 }
