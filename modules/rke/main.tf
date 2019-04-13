@@ -116,10 +116,6 @@ resource null_resource "tiller" {
 resource "kubernetes_storage_class" "default" {
   metadata {
     name = "default"
-
-    annotations = {
-      "storageclass.kubernetes.io/is-default-class" = "true"
-    }
   }
 
   storage_provisioner = "kubernetes.io/cinder"
