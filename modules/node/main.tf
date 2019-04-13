@@ -122,18 +122,18 @@ resource null_resource "prepare_nodes" {
   }
 
   provisioner "remote-exec" {
-    connection {
-      # External
-      bastion_host     = "${var.assign_floating_ip && var.ssh_bastion_host == "" ? element(concat(openstack_compute_floatingip_v2.floating_ip.*.address,list("")), count.index) : var.ssh_bastion_host}" # workaround (empty list, no need in TF 0.12)
-      bastion_host_key = "${file(var.ssh_key)}"
-
-      # Internal
-      host        = "${element(coalescelist(openstack_compute_instance_v2.instance_secondary_volume.*.network.0.fixed_ip_v4, openstack_compute_instance_v2.instance.*.network.0.fixed_ip_v4), count.index)}"
-      user        = "${var.ssh_user}"
-      private_key = "${file(var.ssh_key)}"
-    }
-
     inline = ["while ! ls -alh /var/run/docker.sock > /dev/null 2>&1; do sleep 20; done"]
+  }
+
+  connection {
+    # External
+    bastion_host     = "${var.assign_floating_ip && var.ssh_bastion_host == "" ? element(concat(openstack_compute_floatingip_v2.floating_ip.*.address,list("")), count.index) : var.ssh_bastion_host}" # workaround (empty list, no need in TF 0.12)
+    bastion_host_key = "${file(var.ssh_key)}"
+
+    # Internal
+    host        = "${element(coalescelist(openstack_compute_instance_v2.instance_secondary_volume.*.network.0.fixed_ip_v4, openstack_compute_instance_v2.instance.*.network.0.fixed_ip_v4), count.index)}"
+    user        = "${var.ssh_user}"
+    private_key = "${file(var.ssh_key)}"
   }
 }
 
