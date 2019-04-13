@@ -1,6 +1,6 @@
 #cloud-config
 rancher:
-  console: alpine
+  console: ubuntu
   docker:
     engine: docker-${docker_version}
   sysctl:
