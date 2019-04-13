@@ -122,7 +122,7 @@ resource null_resource "prepare_nodes" {
   }
 
   provisioner "remote-exec" {
-    inline = ["while ! ls -alh /var/run/docker.sock > /dev/null 2>&1; do sleep 20; done"]
+    inline = ["while ! docker info > /dev/null 2>&1; do sleep 20; done"]
   }
 
   connection {
