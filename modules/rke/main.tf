@@ -1,25 +1,15 @@
 # Provision RKE
-
-locals {
-  bastion_host_map = {
-    address      = "${var.ssh_bastion_host}"
-    user         = "${var.ssh_user}"
-    ssh_key_path = "${var.ssh_key}"
-    port         = 22
-  }
-
-  bastion_host = {
-    none    = {}
-    enabled = "${local.bastion_host_map}"
-  }
-}
-
 resource rke_cluster "cluster" {
   nodes_conf         = ["${var.node_mappings}"]
   kubernetes_version = "${var.kubernetes_version}"
   ssh_agent_auth     = "${var.ssh_agent_auth}"
 
-  bastion_host = ["${local.bastion_host["${var.use_bastion ? "none" : "enabled"}"]}"]
+  bastion_host = {
+    address      = "${var.ssh_bastion_host}"
+    user         = "${var.ssh_user}"
+    ssh_key_path = "${var.ssh_key}"
+    port         = 22
+  }
 
   services_etcd {
     snapshot  = true
