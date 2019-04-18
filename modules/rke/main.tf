@@ -83,12 +83,38 @@ resource rke_cluster "cluster_no_bastion" {
   count              = "${var.use_bastion ? 0 : 1}"
   nodes_conf         = ["${var.node_mappings}"]
   kubernetes_version = "${var.kubernetes_version}"
+  cluster_name       = "local"
   ssh_agent_auth     = "${var.ssh_agent_auth}"
+  ssh_key_path       = "${var.ssh_key}"
+  prefix_path        = "/"
+  addon_job_timeout  = 30
+
+  monitoring {
+    provider = "metrics-server"
+  }
+
+  dns {
+    provider = "kube-dns"
+  }
+
+  authorization {
+    mode = "rbac"
+  }
 
   services_etcd {
-    snapshot  = true
-    retention = "24h"
-    creation  = "6h0s"
+    snapshot           = true
+    retention          = "24h"
+    creation           = "6h0s"
+    election-timeout   = "5000"
+    heartbeat-interval = "500"
+  }
+
+  network {
+    plugin = "canal"
+
+    options = {
+      canal_flannel_backend_type = "vxlan"
+    }
   }
 
   cloud_provider {
