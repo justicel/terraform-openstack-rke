@@ -32,8 +32,8 @@ resource rke_cluster "cluster" {
     snapshot           = true
     retention          = "24h"
     creation           = "6h0s"
-    election-timeout   = "5000"
-    heartbeat-interval = "500"
+    election_timeout   = "5000"
+    heartbeat_interval = "500"
   }
 
   network {
@@ -105,8 +105,8 @@ resource rke_cluster "cluster_no_bastion" {
     snapshot           = true
     retention          = "24h"
     creation           = "6h0s"
-    election-timeout   = "5000"
-    heartbeat-interval = "500"
+    election_timeout   = "5000"
+    heartbeat_interval = "500"
   }
 
   network {
