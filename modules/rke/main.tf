@@ -29,11 +29,9 @@ resource rke_cluster "cluster" {
   }
 
   services_etcd {
-    snapshot           = true
-    retention          = "24h"
-    creation           = "6h0s"
-    election_timeout   = "5000"
-    heartbeat_interval = "500"
+    snapshot  = true
+    retention = "24h"
+    creation  = "6h0s"
   }
 
   network {
@@ -102,11 +100,9 @@ resource rke_cluster "cluster_no_bastion" {
   }
 
   services_etcd {
-    snapshot           = true
-    retention          = "24h"
-    creation           = "6h0s"
-    election_timeout   = "5000"
-    heartbeat_interval = "500"
+    snapshot  = true
+    retention = "24h"
+    creation  = "6h0s"
   }
 
   network {
