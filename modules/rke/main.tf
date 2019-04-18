@@ -19,7 +19,7 @@ resource rke_cluster "cluster" {
   kubernetes_version = "${var.kubernetes_version}"
   ssh_agent_auth     = "${var.ssh_agent_auth}"
 
-  bastion_host = "${local.bastion_host["${var.use_bastion ? "none" : "enabled"}"]}"
+  bastion_host = ["${local.bastion_host["${var.use_bastion ? "none" : "enabled"}"]}"]
 
   services_etcd {
     snapshot  = true
