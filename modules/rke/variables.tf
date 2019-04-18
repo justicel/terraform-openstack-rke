@@ -3,6 +3,10 @@ variable "node_mappings" {
   description = "Node mappings for RKE provisioning"
 }
 
+variable "use_bastion" {
+  default = true
+}
+
 variable ssh_bastion_host {
   default = "Bastion SSH host"
 }

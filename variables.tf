@@ -3,6 +3,10 @@ variable cluster_prefix {
   default     = "rke"
 }
 
+variable "use_bastion" {
+  default = true
+}
+
 variable ssh_key {
   description = "Local path to SSH key"
 }

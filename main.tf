@@ -106,6 +106,7 @@ module "rke" {
   source                    = "modules/rke"
   rke_cluster_deps          = "${local.rke_cluster_deps}"
   node_mappings             = "${concat(module.master.node_mappings,module.service.node_mappings,module.edge.node_mappings)}"
+  use_bastion               = "${var.use_bastion}"
   ssh_bastion_host          = "${element(module.edge.public_ip_list,0)}"
   ssh_user                  = "${var.ssh_user}"
   ssh_key                   = "${var.ssh_key}"
