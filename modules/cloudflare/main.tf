@@ -107,7 +107,7 @@ resource "cloudflare_load_balancer_pool" "cloudflare" {
   count = "${local.enable}"
   name  = "${var.prefix}-lb-pool"
 
-  origins = ["${null_resource.dns_value_list.*.triggers}"]
+  origins = "${null_resource.dns_value_list.*.triggers}"
 
   description        = "${var.description} Pool - ${var.prefix}"
   enabled            = true
