@@ -11,7 +11,6 @@ variable cloudflare_domain {
 variable dns_value_list {
   type        = "list"
   description = "List of DNS values (an LB record will be created for each of these)"
-  default     = ["127.0.0.1"]
 }
 
 variable dns_record_count {
@@ -78,19 +77,8 @@ variable "enable_proxy" {
 }
 
 ############ Main Body
-resource "null_resource" "dns_value_list" {
-  count = "${length(var.dns_record_count)}"
-
-  triggers = {
-    name    = "${var.prefix}-${var.hostnames}-${count.index}"
-    address = "${var.dns_value_list[count.index]}"
-    enabled = true
-  }
-}
-
 locals {
-  enable     = "${var.cloudflare_enable ? 1 : 0}"
-  dns_values = "${null_resource.dns_value_list.*.triggers}"
+  enable = "${var.cloudflare_enable ? 1 : 0}"
 }
 
 resource "cloudflare_load_balancer_monitor" "cloudflare" {
@@ -105,11 +93,15 @@ resource "cloudflare_load_balancer_monitor" "cloudflare" {
   description    = "${var.description} Monitor - ${var.prefix}"
 }
 
-resource "cloudflare_load_balancer_pool" "cloudflare" {
-  count = "${local.enable}"
+resource "cloudflare_load_balancer_pool" "cloudflare_1" {
+  count = "${local.enable * (var.dns_record_count == 1 ? 1 : 0)}"
   name  = "${var.prefix}-lb-pool"
 
-  origins = ["${local.dns_values}"]
+  origins {
+    name    = "${var.prefix}-${var.hostnames}-${count.index}"
+    address = "${var.dns_value_list[0]}"
+    enabled = true
+  }
 
   description        = "${var.description} Pool - ${var.prefix}"
   enabled            = true
@@ -118,12 +110,150 @@ resource "cloudflare_load_balancer_pool" "cloudflare" {
   monitor            = "${cloudflare_load_balancer_monitor.cloudflare.0.id}"
 }
 
+resource "cloudflare_load_balancer_pool" "cloudflare_2" {
+  count = "${local.enable * (var.dns_record_count == 2 ? 1 : 0)}"
+  name  = "${var.prefix}-lb-pool"
+
+  origins {
+    name    = "${var.prefix}-${var.hostnames}-${count.index}"
+    address = "${var.dns_value_list[0]}"
+    enabled = true
+  }
+
+  origins {
+    name    = "${var.prefix}-${var.hostnames}-${count.index}"
+    address = "${var.dns_value_list[1]}"
+    enabled = true
+  }
+
+  description        = "${var.description} Pool - ${var.prefix}"
+  enabled            = true
+  minimum_origins    = 1
+  notification_email = "${var.notification_email}"
+  monitor            = "${cloudflare_load_balancer_monitor.cloudflare.0.id}"
+}
+
+resource "cloudflare_load_balancer_pool" "cloudflare_3" {
+  count = "${local.enable * (var.dns_record_count == 3 ? 1 : 0)}"
+  name  = "${var.prefix}-lb-pool"
+
+  origins {
+    name    = "${var.prefix}-${var.hostnames}-${count.index}"
+    address = "${var.dns_value_list[0]}"
+    enabled = true
+  }
+
+  origins {
+    name    = "${var.prefix}-${var.hostnames}-${count.index}"
+    address = "${var.dns_value_list[1]}"
+    enabled = true
+  }
+
+  origins {
+    name    = "${var.prefix}-${var.hostnames}-${count.index}"
+    address = "${var.dns_value_list[2]}"
+    enabled = true
+  }
+
+  description        = "${var.description} Pool - ${var.prefix}"
+  enabled            = true
+  minimum_origins    = 1
+  notification_email = "${var.notification_email}"
+  monitor            = "${cloudflare_load_balancer_monitor.cloudflare.0.id}"
+}
+
+resource "cloudflare_load_balancer_pool" "cloudflare_4" {
+  count = "${local.enable * (var.dns_record_count == 4 ? 1 : 0)}"
+  name  = "${var.prefix}-lb-pool"
+
+  origins {
+    name    = "${var.prefix}-${var.hostnames}-${count.index}"
+    address = "${var.dns_value_list[0]}"
+    enabled = true
+  }
+
+  origins {
+    name    = "${var.prefix}-${var.hostnames}-${count.index}"
+    address = "${var.dns_value_list[1]}"
+    enabled = true
+  }
+
+  origins {
+    name    = "${var.prefix}-${var.hostnames}-${count.index}"
+    address = "${var.dns_value_list[2]}"
+    enabled = true
+  }
+
+  origins {
+    name    = "${var.prefix}-${var.hostnames}-${count.index}"
+    address = "${var.dns_value_list[3]}"
+    enabled = true
+  }
+
+  description        = "${var.description} Pool - ${var.prefix}"
+  enabled            = true
+  minimum_origins    = 1
+  notification_email = "${var.notification_email}"
+  monitor            = "${cloudflare_load_balancer_monitor.cloudflare.0.id}"
+}
+
+resource "cloudflare_load_balancer_pool" "cloudflare_5" {
+  count = "${local.enable * (var.dns_record_count == 5 ? 1 : 0)}"
+  name  = "${var.prefix}-lb-pool"
+
+  origins {
+    name    = "${var.prefix}-${var.hostnames}-${count.index}"
+    address = "${var.dns_value_list[0]}"
+    enabled = true
+  }
+
+  origins {
+    name    = "${var.prefix}-${var.hostnames}-${count.index}"
+    address = "${var.dns_value_list[1]}"
+    enabled = true
+  }
+
+  origins {
+    name    = "${var.prefix}-${var.hostnames}-${count.index}"
+    address = "${var.dns_value_list[2]}"
+    enabled = true
+  }
+
+  origins {
+    name    = "${var.prefix}-${var.hostnames}-${count.index}"
+    address = "${var.dns_value_list[3]}"
+    enabled = true
+  }
+
+  origins {
+    name    = "${var.prefix}-${var.hostnames}-${count.index}"
+    address = "${var.dns_value_list[4]}"
+    enabled = true
+  }
+
+  description        = "${var.description} Pool - ${var.prefix}"
+  enabled            = true
+  minimum_origins    = 1
+  notification_email = "${var.notification_email}"
+  monitor            = "${cloudflare_load_balancer_monitor.cloudflare.0.id}"
+}
+
+locals {
+  lb_pool_id = "${join("", coalescelist(list(),
+    cloudflare_load_balancer_pool.cloudflare_1.*.id,
+    cloudflare_load_balancer_pool.cloudflare_2.*.id,
+    cloudflare_load_balancer_pool.cloudflare_3.*.id,
+    cloudflare_load_balancer_pool.cloudflare_4.*.id,
+    cloudflare_load_balancer_pool.cloudflare_5.*.id
+  ))}"
+}
+
 resource "cloudflare_load_balancer" "cloudflare" {
   count            = "${local.enable}"
   zone             = "${var.cloudflare_domain}"
   name             = "${var.prefix}-lb.${var.cloudflare_domain}"
-  fallback_pool_id = "${cloudflare_load_balancer_pool.cloudflare.0.id}"
-  default_pool_ids = ["${cloudflare_load_balancer_pool.cloudflare.0.id}"]
+  fallback_pool_id = "${local.lb_pool_id}"
+  default_pool_ids = ["${local.lb_pool_id}"]
   description      = "${var.description} Load Balancer - ${var.prefix}/${var.cloudflare_domain}"
   proxied          = "${var.enable_proxy}"
 }
