@@ -77,10 +77,10 @@ variable "enable_proxy" {
 }
 
 ############ Main Body
-data "null_data_source" "dns_value_list" {
+resource "null_resource" "dns_value_list" {
   count = "${length(var.dns_record_count)}"
 
-  inputs = {
+  triggers = {
     name    = "${var.prefix}-${var.hostnames}-${count.index}"
     address = "${var.dns_value_list[count.index]}"
     enabled = true
@@ -107,7 +107,7 @@ resource "cloudflare_load_balancer_pool" "cloudflare" {
   count = "${local.enable}"
   name  = "${var.prefix}-lb-pool"
 
-  origins = ["${data.null_data_source.dns_value_list.*.outputs}"]
+  origins = ["${null_resource.dns_value_list.*.triggers}"]
 
   description        = "${var.description} Pool - ${var.prefix}"
   enabled            = true
