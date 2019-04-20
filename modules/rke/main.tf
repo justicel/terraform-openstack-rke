@@ -239,3 +239,13 @@ resource "kubernetes_storage_class" "default" {
   storage_provisioner = "kubernetes.io/cinder"
   reclaim_policy      = "Delete"
 }
+
+resource "null_resource" "storage_patch" {
+  provisioner "local-exec" {
+    command = "kubectl patch storageclass default -p '{\"metadata\": {\"annotations\":{\"storageclass.kubernetes.io/is-default-class\":\"true\"}}}'"
+  }
+
+  triggers = {
+    storage_class = "${kubernetes_storage_class.default.id}"
+  }
+}
