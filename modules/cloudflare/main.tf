@@ -11,6 +11,7 @@ variable cloudflare_domain {
 variable dns_value_list {
   type        = "list"
   description = "List of DNS values (an LB record will be created for each of these)"
+  default     = ["127.0.0.1"]
 }
 
 variable dns_record_count {
