@@ -242,6 +242,10 @@ resource "kubernetes_storage_class" "default" {
 
 resource "null_resource" "storage_patch" {
   provisioner "local-exec" {
+    environment {
+      KUBECONFIG = "${path.root}/kube_config_cluster.yml"
+    }
+
     command = "kubectl patch storageclass default -p '{\"metadata\": {\"annotations\":{\"storageclass.kubernetes.io/is-default-class\":\"true\"}}}'"
   }
 
