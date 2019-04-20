@@ -189,6 +189,7 @@ provider "helm" {
     client_certificate     = "${coalesce(join("", rke_cluster.cluster_no_bastion.*.client_cert), join("", rke_cluster.cluster.*.client_cert))}"
     client_key             = "${coalesce(join("", rke_cluster.cluster_no_bastion.*.client_key), join("", rke_cluster.cluster.*.client_key))}"
     cluster_ca_certificate = "${coalesce(join("", rke_cluster.cluster_no_bastion.*.ca_crt), join("", rke_cluster.cluster.*.ca_crt))}"
+    insecure               = true
   }
 }
 
