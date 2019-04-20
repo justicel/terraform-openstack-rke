@@ -125,12 +125,13 @@ module "rke" {
 
 # Create DNS records if required
 module "cloudflare" {
-  source                 = "modules/cloudflare"
-  cloudflare_enable      = "${var.cloudflare_enable}"
-  cloudflare_domain      = "${var.cloudflare_domain}"
-  cloudflare_record_name = "${var.cloudflare_record_name}"
-  dns_value_list         = "${module.edge.public_ip_list}"
-  dns_record_count       = "${var.edge_count}"
-  cloudflare_email       = "${var.cloudflare_email}"
-  cloudflare_api_key     = "${var.cloudflare_api_key}"
+  source            = "modules/cloudflare"
+  prefix            = "${var.cluster_prefix}"
+  hostnames         = "edge"
+  cloudflare_enable = "${var.cloudflare_enable}"
+  cloudflare_domain = "${var.cloudflare_domain}"
+  dns_value_list    = "${module.edge.public_ip_list}"
+  dns_record_count  = "${var.edge_count}"
+  cloudflare_email  = "${var.cloudflare_email}"
+  cloudflare_token  = "${var.cloudflare_token}"
 }
