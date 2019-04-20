@@ -88,7 +88,8 @@ resource "null_resource" "dns_value_list" {
 }
 
 locals {
-  enable = "${var.cloudflare_enable ? 1 : 0}"
+  enable     = "${var.cloudflare_enable ? 1 : 0}"
+  dns_values = "${list(null_resource.dns_value_list.*.triggers)}"
 }
 
 resource "cloudflare_load_balancer_monitor" "cloudflare" {
@@ -107,7 +108,7 @@ resource "cloudflare_load_balancer_pool" "cloudflare" {
   count = "${local.enable}"
   name  = "${var.prefix}-lb-pool"
 
-  origins = ["${null_resource.dns_value_list.*.triggers}"]
+  origins = "${local.dns_values}"
 
   description        = "${var.description} Pool - ${var.prefix}"
   enabled            = true
