@@ -98,7 +98,7 @@ resource "cloudflare_load_balancer_pool" "cloudflare_1" {
   name  = "${var.prefix}-lb-pool"
 
   origins {
-    name    = "${var.prefix}-${var.hostnames}-${count.index}"
+    name    = "${var.prefix}-${var.hostnames}-0"
     address = "${var.dns_value_list[0]}"
     enabled = true
   }
@@ -115,13 +115,13 @@ resource "cloudflare_load_balancer_pool" "cloudflare_2" {
   name  = "${var.prefix}-lb-pool"
 
   origins {
-    name    = "${var.prefix}-${var.hostnames}-${count.index}"
+    name    = "${var.prefix}-${var.hostnames}-0"
     address = "${var.dns_value_list[0]}"
     enabled = true
   }
 
   origins {
-    name    = "${var.prefix}-${var.hostnames}-${count.index}"
+    name    = "${var.prefix}-${var.hostnames}-1"
     address = "${var.dns_value_list[1]}"
     enabled = true
   }
@@ -138,19 +138,19 @@ resource "cloudflare_load_balancer_pool" "cloudflare_3" {
   name  = "${var.prefix}-lb-pool"
 
   origins {
-    name    = "${var.prefix}-${var.hostnames}-${count.index}"
+    name    = "${var.prefix}-${var.hostnames}-0"
     address = "${var.dns_value_list[0]}"
     enabled = true
   }
 
   origins {
-    name    = "${var.prefix}-${var.hostnames}-${count.index}"
+    name    = "${var.prefix}-${var.hostnames}-1"
     address = "${var.dns_value_list[1]}"
     enabled = true
   }
 
   origins {
-    name    = "${var.prefix}-${var.hostnames}-${count.index}"
+    name    = "${var.prefix}-${var.hostnames}-2"
     address = "${var.dns_value_list[2]}"
     enabled = true
   }
@@ -167,25 +167,25 @@ resource "cloudflare_load_balancer_pool" "cloudflare_4" {
   name  = "${var.prefix}-lb-pool"
 
   origins {
-    name    = "${var.prefix}-${var.hostnames}-${count.index}"
+    name    = "${var.prefix}-${var.hostnames}-0"
     address = "${var.dns_value_list[0]}"
     enabled = true
   }
 
   origins {
-    name    = "${var.prefix}-${var.hostnames}-${count.index}"
+    name    = "${var.prefix}-${var.hostnames}-1"
     address = "${var.dns_value_list[1]}"
     enabled = true
   }
 
   origins {
-    name    = "${var.prefix}-${var.hostnames}-${count.index}"
+    name    = "${var.prefix}-${var.hostnames}-2"
     address = "${var.dns_value_list[2]}"
     enabled = true
   }
 
   origins {
-    name    = "${var.prefix}-${var.hostnames}-${count.index}"
+    name    = "${var.prefix}-${var.hostnames}-3"
     address = "${var.dns_value_list[3]}"
     enabled = true
   }
@@ -202,31 +202,31 @@ resource "cloudflare_load_balancer_pool" "cloudflare_5" {
   name  = "${var.prefix}-lb-pool"
 
   origins {
-    name    = "${var.prefix}-${var.hostnames}-${count.index}"
+    name    = "${var.prefix}-${var.hostnames}-0"
     address = "${var.dns_value_list[0]}"
     enabled = true
   }
 
   origins {
-    name    = "${var.prefix}-${var.hostnames}-${count.index}"
+    name    = "${var.prefix}-${var.hostnames}-1"
     address = "${var.dns_value_list[1]}"
     enabled = true
   }
 
   origins {
-    name    = "${var.prefix}-${var.hostnames}-${count.index}"
+    name    = "${var.prefix}-${var.hostnames}-2"
     address = "${var.dns_value_list[2]}"
     enabled = true
   }
 
   origins {
-    name    = "${var.prefix}-${var.hostnames}-${count.index}"
+    name    = "${var.prefix}-${var.hostnames}-3"
     address = "${var.dns_value_list[3]}"
     enabled = true
   }
 
   origins {
-    name    = "${var.prefix}-${var.hostnames}-${count.index}"
+    name    = "${var.prefix}-${var.hostnames}-4"
     address = "${var.dns_value_list[4]}"
     enabled = true
   }
