@@ -2,8 +2,8 @@
 rancher:
   console: alpine
   runcmd:
-    - if ! [ -f /opt/fixvdb ]; then wipefs --all --force /dev/vdb; fi
-    - touch /opt/fixvdb
+    - 'if ! [ -f /opt/fixvdb ]; then wipefs --all --force /dev/vdb; fi'
+    - 'touch /opt/fixvdb'
   docker:
     engine: docker-${docker_version}
   sysctl:
