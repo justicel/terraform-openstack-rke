@@ -61,7 +61,7 @@ resource "openstack_compute_instance_v2" "instance_secondary_volume" {
   name         = "${var.name_prefix}-${format("%03d", count.index)}"
   image_name   = "${var.image_name}"
   config_drive = true
-  user_data    = "${file("${path.module}/templates/rancheros.tpl")}"
+  user_data    = "${file("${path.module}/templates/rancheros-secondary.tpl")}"
   flavor_name  = "${var.flavor_name}"
   key_pair     = "${var.os_ssh_keypair}"
 
